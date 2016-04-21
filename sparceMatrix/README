@@ -1,0 +1,82 @@
+Challenge Overview
+
+In a previous challenge, the Topcoder community developed an application to read a matrix from a tab-delimited text file, put the matrix into binary format, and to transpose a matrix in binary format as efficiently as possible.   In the Sparse Matrix challenge, we’re going to build on the work we’ve already done to allow for the processing of matrices where most of the matrices’ values are zero or some other default value.
+
+According to Wikipedia "In numerical analysis, a sparse matrix is a matrix in which most of the elements are zero." Our matrices are sparse-like, in that most of the values are some value k that is not necessarily zero, and we would like to be able to specify what k is via the command line.
+
+Our sparse-like matrices will be represented in a different file input format than full matrix file that we previously read and processed.  In the input file, each element of the matrix will be represented in a single row by three values separated by a tab.  The first value is the zero-based index for row, second value is the zero-based index for column, and last value is the data.  Data values are integers in the range [­-127, 127].  The input text file will have at least 1 row.  If a value isn’t defined in the matrix text file -- a non-labeled cell -- the element should be assigned the default value.  You should define a command line parameter which assigns a default value between -127 and 127 to the missing elements.  We have two test file for you to use in your development efforts.  The first is the matrix.in file for a 5000 x 10000 matrix is provided for download.  This file has no missing values.
+
+https://drive.google.com/file/d/0ByjxTGykXQjANU5kaWtWY2hsNG8/view?usp=sharing
+
+The second test file is a much large larger matrix,  10000 X 800000 and only 2% of values have been populated.  
+
+https://drive.google.com/file/d/0ByjxTGykXQjAaEZaOF9jVElHbzA/view?usp=sharing
+
+These two files are sorted by column and then row.  Gates would also like to be able to sort files by row, then column.  Here are two additional test files to validate that sorting scheme.  Please note that these files do not represent the same matrices as the ones previously provided.  
+
+https://drive.google.com/file/d/0ByjxTGykXQjAb1l5NHE1SVNOdjA/view?usp=sharing
+https://drive.google.com/file/d/0ByjxTGykXQjAUFBpZWd2ZTBhSFk/view?usp=sharing
+
+The format of the output files should be the same as in the previous challenge.  It is listed below:
+
+type   | bytes   | field     | description
+------------------------------------------
+int    | 4       | 0         | zero
+int    | 4       | col       | number of columns in the output matrix
+int    | 4       | row       | number of rows in the output matrix
+int    | 4       | maxp1     | maximum data value + 1
+int    | 4       | 0         | zero
+int[]  | col*4   | maxp1_col | vector with (max value + 1) for every column
+char[] | col*row | data      | final matrix, column­major order            
+
+Your application should output both a binary version of the the matrix in one file and its transpose as well.  This is functionality that was developed in the previous challenge.
+
+For this challenge, you should include two new command line parameters as additions to the previous application:
+
+    One parameter to indicate whether the application is operating on a full or sparse matrix.  
+
+    A parameter to indicate the default value to assign to the missing elements of the matrix (as discussed above).
+
+Additional requirements:
+
+1.  The software should not use more RAM than the final size of the largest output matrix. For example, if row = 10000, col = 20000, software should not use more than (10000*20000) bytes + (20000*4) bytes + (4*5) bytes = ~200.1 MB.  The existing solution upon which we’re building uses memory very efficiently.  Of course, you are welcome to optimize.  We’ll use Valgrind to validate RAM usage.
+
+2.  Parallelization techniques are encouraged.
+
+3. The test system architecture is x86_64 GNU/Linux.  We’ll be testing all the submission on a AWS Ubuntu 14.04 m4.large instance with 8GB of RAM and 2 processors.
+
+4. The software will be judged on speed and memory efficiency.  We’re going to run all the solutions on the test system described in #3 above.  Please review the scorecards carefully.  The performance characteristics (RAM usage and execution time) will be objectively measured and will constitute about 50% of the score.  If the tester can’t get your code to compile and run you will receive the minimum performance score.  The testing will be conducted against the larger of the two test files provided above.  You will, of course, be expected to have populated the default values in the binary and transposed binary output.
+
+5.  The application should be smart enough to detect the size of the matrix from the input file itself.  Users of this application won’t necessarily know the size of the data sets in advance.
+
+6.  We'd like to keep the main function and command line parameters of all the submissions consistent to allow automation of the testing.  The code we're using as a starting point can be executed like so:  
+
+$ bin/test2bin test.in
+
+However, we'd like to update the command line parameters to allow for a little more flexibility.  Please implement the parameters in the following way:
+-i <file> --> input file
+-o <file> --> output file with matrix (optional)
+-t <file> --> output file with transposed matrix (optional)
+-s --> flag that tells if the matrix is sparse  (optional-application should default to full matrix processing if not provided)
+-v <value> --> the default value for the missing elements of the matrix (optional-should default to 0 if not provided)
+-n <number> --> number of threads (optional, if the solution uses threads; current submission does not use threads)
+
+You should keep the name of the executable the same (text2bin).  We have some sample code for a main function to help with the implementation this interface.
+ 
+Platforms
+
+    Other
+
+Technologies
+
+    C
+    Data Science
+
+Final Submission Guidelines
+
+- Please submit all your source code and documentation in a zip format.  You should use the existing code as a starting point for this challenge.
+
+- You should submit a Makefile to build your application. Please use the existing Makefile as a starting point.
+
+- The previously written code for this application can be found in the Code Documents forums attached to this challenge.  Instructions on how to execute the existing code are provided in the readme.txt
+
