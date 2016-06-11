@@ -58,7 +58,7 @@ Your input file is structured like so:
 
 """
 
-print 'Loading Matrix...'
+# Loading matrix
 startTime = time.time()
 with args.inputFile as inFile:
     # read the last line of the input file to determine the size of the input matrix
@@ -75,17 +75,28 @@ with args.inputFile as inFile:
     #        l.append(int())
     #    inMat.append(l)
     inMat = np.empty(size, np.dtype('i1'))
-    print 'matrix size is', len(inMat), 'x', len(inMat[0])
+    outMat = np.full(size, args.value, np.dtype('i1'))
+    print 'matrix size is will be', len(inMat), 'x', len(inMat[0])
     
     # initialize the matrix according to the retrieved size
     inFile.seek(0)
+    print 'Loading Matrix...'
     for line in inFile.readlines():
-        line = line.strip().split('\t')
-        #print 'assigning', line[2], 'to', line[0],'x',line[1]
-        inMat[int(line[0])][int(line[1])] = int(line[2])
+        row, col, val = line.strip().split('\t')
+        inMat[int(row)][int(col)] = int(val)
        
 endTime = time.time()
 print 'Took', (endTime-startTime), 'seconds to load matrix'
+print inMat
+
+# Divide the matrix into sections
+
+
+# transposes the specified section of the input 
+# matrix and places it into the output matrix
+def transpose(tlCorner, brCorner):
+    
+    return 
 
 
 
@@ -95,21 +106,30 @@ print 'Took', (endTime-startTime), 'seconds to load matrix'
 
 
 
+"""
+EXAMPLE TRANSPOSE OF MATRIX
+
+ 1  2  3  4  5  6
+ 7  8  9 10 11 12
+13 14 15 16 17 18 
+19 20 21 22 23 24
+25 26 27 28 29 30
 
 
+ 1  7 13 19 25
+ 2  8 14 20 26
+ 3  9 15 21 27 
+ 4 10 16 22 28
+ 5 11 17 23 29
+ 6 12 18 24 30
 
 
+ 1: 0x0 -> 0x0
+ 7: 1x0 -> 0x1
+12: 1x5 -> 5x1
+28: 4x3 -> 3x4
 
-
-
-
-
-
-
-
-
-
-
+"""
 
 
 
