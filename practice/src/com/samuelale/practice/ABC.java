@@ -1,7 +1,13 @@
 package com.samuelale.practice;
 
 public class ABC {
-
+    private static boolean atCLimit(int idx, int n) {
+        if(n%2==0) {
+            return idx >= n/2;
+        } else {
+            return idx > n/2;
+        }
+    }
     public static String createString(int n, int k) {
         char[] result = new char[n];
         // we need more pairs than there are spaces
@@ -22,28 +28,30 @@ public class ABC {
                 cPairs = (n-cIdx) * cIdx;
                 cIdx--;
             }
-            while(cPairs < k && cIdx > n/2);
+            while((n-cIdx) * cIdx <= k && atCLimit(cIdx, n));
 
             // if we haven't reached our goal then lets place some B's
+            // starting where the next C would have gone
             if(cPairs != k) {
                 // track the b-index
+                int bIdx = cIdx;
                 int bN = cIdx+1;
                 int bK = k-cPairs;
                 int bPairs = 0;
-                int bIdx = bN-1;
-                do {
-                    result[bIdx] = 'B';
-                    bPairs = (bN-bIdx) * bIdx;
-                    bIdx--;
+
+                if(bK >= bN) {
+                    do {
+                        result[bIdx] = 'B';
+                        bPairs = (bN - bIdx) * bIdx;
+                        bIdx--;
+                    }
+                    while ((bN - bIdx) * bIdx <= bK && bIdx >= bN / 2);
                 }
-                while(bPairs < bK && bIdx > bN/2);
 
                 if(bPairs+cPairs != k) {
                     if(bIdx <= bN/2) {
                         return "";
                     }
-                    bIdx++;
-                    result[bIdx] = 'A';
                     bPairs = (cIdx - bIdx)*bIdx;
                     int pairsLeft = bK-bPairs;
                     result[pairsLeft] = 'B';
@@ -55,7 +63,7 @@ public class ABC {
         else if (k < n) {
             int gap = n-k-1;
             for(int i=0; i<gap; i++) result[i] = 'C';
-            for(int i=gap; i<k; i++) result[i] = 'A';
+            for(int i=gap; i<n-1; i++) result[i] = 'A';
             result[n-1] = 'B';
         } else {
             result[0] = 'A';
