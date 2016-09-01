@@ -1,12 +1,16 @@
 package com.samuelale.practice;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Solution {
 
     public static void main(String[] args) {
+        char[] carr = new char[] {'b', 'a'};
+        System.out.println(String.valueOf(carr));
+
         /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
         Scanner input = new Scanner(System.in);
         int T = input.nextInt();
