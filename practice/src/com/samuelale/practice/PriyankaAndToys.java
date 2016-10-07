@@ -26,6 +26,5 @@ public class PriyankaAndToys {
             }
         }
         System.out.println(count);
-        System.a
     }
 }
