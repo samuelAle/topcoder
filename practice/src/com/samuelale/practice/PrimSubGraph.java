@@ -46,7 +46,7 @@ public class PrimSubGraph {
         Node(int val) {
             this.val = val;
         }
-        public int hashcode() {
+        public int hashCode() {
             return val;
         }
         public boolean equals(Object other) {
